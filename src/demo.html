@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>localStorage cache demo</title>
+
+    <style type="text/css">
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            width: 90%;
+            margin: 20px auto;
+        }
+        .scripts {
+            display: none;
+        }
+        h1, h2, h3 {
+            margin-bottom: 15px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        button, input[type='text'] {
+            margin-right: 10px;
+            padding: 3px 8px;
+        }
+        input[type='text'] {
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <h1>localStorage Cache Test</h1>
+
+    <p>Enter a key/value pair and click "set" to store it.  You can then retreive it on this page, or in a new tab by typing the key and clicking "Get".  To remove just one value enter the key and click "Remove".  To clear your stored values, hit clear.  You can verify they are gone by typing the key and hitting "get" again.  Keep in mind these values are set to "expire" in 5 minutes, if you attempt to pull tham after that they will be removed and you will get a null return.</p>
+
+    <form method="post">
+        <p>
+            <input type="text" name="key" placeholder="key" />
+            <input type="text" name="value" placeholder="value" />
+        </p>
+        <p>
+            <button>Set</button>
+            <button>Get</button>
+            <button>Remove</button>
+            <button>Clear</button>
+        </p>
+    </form>
+
+    <div class="scripts">
+        <script src="lscache.js"></script>
+        <script type="text/javascript">
+        <!--// cloaking device
+
+            // get our form
+            var ourForm = document.getElementsByTagName('form')[0];
+
+            // Prevent our form from submitting accidentally (some browsers I tell ya...)
+            ourForm.onsubmit = function() { return false; }
+
+            // Get buttons
+            var buttons = ourForm.getElementsByTagName('button');
+
+            // functions
+            var testSet = function() {
+                window.storage.set(ourForm.elements['key'].value, ourForm.elements['value'].value);
+                ourForm.reset();
+            }
+            var testGet = function() {
+                ourForm.elements['value'].value = window.storage.get(ourForm.elements['key'].value);
+            }
+            var testRemove = function() {
+                window.storage.set(ourForm.elements['key'].value, null);
+                ourForm.reset();
+            }
+            var testClear = function() {
+                window.storage.clear();
+                ourForm.reset();
+            }
+
+            // attach add & clear events
+            if (window.addEventListener) {
+                buttons[0].addEventListener('click', testSet, 1);
+                buttons[1].addEventListener('click', testGet, 1);
+                buttons[2].addEventListener('click', testRemove, 1);
+                buttons[3].addEventListener('click', testClear, 1);
+            } else {
+                // old ie fallback
+                buttons[0].attachEvent('click', testSet);
+                buttons[1].attachEvent('click', testGet);
+                buttons[2].attachEvent('click', testRemove);
+                buttons[3].attachEvent('click', testClear);
+            }
+
+        //-->
+        </script>
+    </div>
+
+</body>
+</html>
